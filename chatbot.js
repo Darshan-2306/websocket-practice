@@ -1,4 +1,4 @@
-// server.js
+
 const http = require('http');
 const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 8080 });
@@ -24,14 +24,13 @@ wss.on("connection", (ws) => {
     if (data.type === "chat") {
       const { room, text, id } = data;
 
-      // broadcast to room
+  
       (rooms[room] || []).forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify({ user: ws.user, text, room, id }));
         }
       });
 
-      // send ack
     //   ws.send(JSON.stringify({ ack: true, id }));
     }
   });
